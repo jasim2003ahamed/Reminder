@@ -34,6 +34,8 @@ import { TfiClipboard } from "react-icons/tfi";
 
 
 export default function Customer() {
+  const [search,setSearch] = useState('')
+  const [searchResults,setSearchResults] = useState([])
   const [file, setFile] = useState(null);
   const [customers, setCustomers] = useState([]);
   const [editCustomer, setEditCustomer] = useState(null);
@@ -56,6 +58,12 @@ export default function Customer() {
   });
   const fileInputRef = useRef();
   const deliveryOptions = ["email", "sms", "whatsapp"];
+
+  useEffect(() => {
+      const filterResults = customers.filter((customer) => 
+        ((customer.name).toLowerCase()).startsWith(search.toLowerCase()))
+      setSearchResults(filterResults.reverse())
+      },[customers,search])
 
   useEffect(() => {
     fetchCustomers();
@@ -263,6 +271,12 @@ export default function Customer() {
             >
               Add Customer
             </Button>
+            <Input 
+              type='text'
+              name='search'
+              placeholder='Search'
+              onChange={(e) => setSearch(e.target.value)}
+            />
           </Box>
         </Paper>
 
@@ -284,7 +298,7 @@ export default function Customer() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {customers.map((c, idx) => (
+              {searchResults.map((c, idx) => (
                 <TableRow key={c._id}>
                   <TableCell>{idx + 1}</TableCell>
                   <TableCell>{c.name}</TableCell>

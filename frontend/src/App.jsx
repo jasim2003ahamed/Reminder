@@ -13,6 +13,7 @@ import SettingsPage from './pages/SettingsPage';
 import CalendarPage from './pages/CalendarPage';
 import Task from './Task/TaskManager';
 import Group from './pages/GroupPage';
+import Employee from './components/Employee';
 
 const App = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -46,6 +47,7 @@ const App = () => {
           <Route path="/" element={<LoginPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/customer" element={<Customer />} />
+          <Route path="/employee" element={<Employee />} />
           <Route path="/reminderReport" element={<ReminderReport />} />
           <Route path="/reminder" element={<ReminderL />} />
           <Route path="/settings" element={<SettingsPage />} />

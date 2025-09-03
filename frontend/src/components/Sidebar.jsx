@@ -21,6 +21,7 @@ import {
   Settings,
 } from "@mui/icons-material";
 import { useLocation, useNavigate } from "react-router-dom";
+import { ImManWoman } from "react-icons/im";
 
 const drawerWidth = 190;
 
@@ -28,7 +29,7 @@ const navItems = [
   { icon: <Dashboard />, label: "Dashboard", path: "/dashboard" },
   { icon: <EditNotifications />, label: "Reminder", path: "/reminder" },
   { icon: <ListAlt />, label: "Customer", path: "/customer" },
-  { icon: <ListAlt />, label: "Employee", path: "/employee" },
+  { icon: <ImManWoman />, label: "Employee", path: "/employee" },
   { icon: <Group />, label: "Group", path: "/group" },
   { icon: <Summarize />, label: "Reports", path: "/reminderReport" },
   { icon: <Task />, label: "Task", path: "/task" },

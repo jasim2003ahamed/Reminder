@@ -20,6 +20,11 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { IoSettingsSharp } from "react-icons/io5";
 import { useEffect } from 'react';
 import axios from 'axios';
+import { SlChart, SlBell, SlCalender  } from "react-icons/sl";
+import { MdTask  } from "react-icons/md";
+import { LuMessageCircleMore } from "react-icons/lu";
+import { GiBrain } from "react-icons/gi";
+
 
 
 const SettingsPage = () => {
@@ -31,7 +36,7 @@ const SettingsPage = () => {
   const fetchProfile = async () => {
     try {
       const res = await axios.get("http://localhost:5000/api/auth/profile", {
-        withCredentials: true, // sends JWT cookie
+        withCredentials: true, 
       });
       setUser(res.data.user); // save user object from backend
     } catch (error) {
@@ -42,7 +47,6 @@ const SettingsPage = () => {
 }, []);
 
 
-  
 
   const [preferences, setPreferences] = useState({
     notifications: true,
@@ -147,15 +151,15 @@ const SettingsPage = () => {
           {tabIndex === 2 && (
             <Box>
               <Typography variant="h6" gutterBottom>
-                🗓️ Reminder App Features
+                <SlCalender /> Reminder App Features
               </Typography>
               <ul>
-                <li>🔔 Smart Reminders & Alerts</li>
-                <li>📅 Integrated Calendar View</li>
-                <li>📝 Task & Customer Management</li>
-                <li>📊 Dashboard Analytics</li>
-                <li>💬 Email/SMS Integrations</li>
-                <li>🧠 AI-Powered Follow-ups (coming soon)</li>
+                <li><SlBell /> Smart Reminders & Alerts</li>
+                <li><SlCalender /> Integrated Calendar View</li>
+                <li><MdTask /> Task & Customer Management</li>
+                <li><SlChart /> Dashboard Analytics</li>
+                <li><LuMessageCircleMore /> Email/SMS Integrations</li>
+                <li><GiBrain /> AI-Powered Follow-ups (coming soon)</li>
               </ul>
             </Box>
           )}

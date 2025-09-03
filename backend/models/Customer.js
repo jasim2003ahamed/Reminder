@@ -14,7 +14,6 @@ const customerSchema = new mongoose.Schema({
     default: ''
   },
   preferredDelivery: [String],
-   
 });
 
 const Customer = mongoose.model('Customer', customerSchema);

@@ -6,6 +6,7 @@ import connectDB from './config/db.js';
 import authRoutes from './routes/authRoutes.js';
 import fileUpload from 'express-fileupload';
 import customerRoutes from './routes/customerRoutes.js';
+import employeeRoutes from './routes/employeeRoutes.js'
 import reminderRoutes from './routes/reminderRoutes.js';
 import noteRoutes from './routes/noteRoutes.js';
 import reportRoutes from './routes/reportRoutes.js';
@@ -26,6 +27,7 @@ app.use(fileUpload());
 connectDB();
 app.use('/api/auth', authRoutes);
 app.use('/api/customers', customerRoutes);
+app.use('/api/employee', employeeRoutes)
 app.use('/api/reminders', reminderRoutes);
 app.use('/api/notes', noteRoutes);
 app.use('/api/reports', reportRoutes);
