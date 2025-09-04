@@ -31,6 +31,8 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import * as XLSX from "xlsx";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { TfiClipboard } from "react-icons/tfi";
+import { DataGrid } from "@mui/x-data-grid";
+
 
 
 export default function Customer() {
@@ -240,6 +242,41 @@ export default function Customer() {
     }
   };
 
+  const columns = [
+    {field:"id", headerName:"Sr.No",width:80},
+    {field:"name", headerName:"Name",width:150},
+    {field:"email", headerName:"Email",width:200},
+    {field:"phone", headerName:"Phone",width:140},
+    {field:"purchaseDate", headerName:"Purchase Date",width:105},
+    {field:"note", headerName:"Note",width:200},
+    {field:"address", headerName:"Address",width:150},
+    {field:"dob", headerName:"DOB",width:105},
+    {field:"preferredDelivery", headerName:"preferred Delivery",width:120},
+    {
+      field:"actions",
+      headerName:"Actions",
+      width:100,
+      renderCell:(params) => (
+        <>
+          <Button
+            size="small"
+            color="error"
+            onClick={() => handleDelete(params.row._id)}
+          >
+            <MdDelete />
+          </Button>
+        </>
+      )
+    }
+  ]
+
+  const rows = customers.filter((c) => c.name.toLowerCase().startsWith(search.toLowerCase())
+  ).map((c, idx) => ({
+    id: idx + 1,
+    ...c
+  }
+  )) 
+
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Container maxWidth="lg" sx={{ mt: 4 }}>
@@ -253,7 +290,7 @@ export default function Customer() {
             gap={2}
             flexDirection={{ xs: "column", sm: "row" }}
           >
-            <Input
+            {/* <Input
               type="file"
               inputRef={fileInputRef}
               onChange={(e) => setFile(e.target.files[0])}
@@ -263,7 +300,7 @@ export default function Customer() {
             </Button>
             <Button variant="contained" color="secondary" onClick={handleDownloadSample}>
               Download Sample
-            </Button>
+            </Button> */}
             <Button
               variant="contained"
               color="success"
@@ -280,89 +317,14 @@ export default function Customer() {
           </Box>
         </Paper>
 
-        <Paper sx={{ overflowX: "auto" }}>
-          <Table >
-            <TableHead>
-              <TableRow>
-                <TableCell>Sr.No</TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell>Email</TableCell>
-                <TableCell>Phone</TableCell>
-                <TableCell>Purchase Date</TableCell>
-                <TableCell>Reminder</TableCell>
-                <TableCell>Note</TableCell>
-                <TableCell>Address</TableCell>
-                <TableCell>DOB</TableCell>    
-                <TableCell>Preferred Delivery</TableCell>
-                <TableCell>Actions</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {searchResults.map((c, idx) => (
-                <TableRow key={c._id}>
-                  <TableCell>{idx + 1}</TableCell>
-                  <TableCell>{c.name}</TableCell>
-                  <TableCell>{c.email}</TableCell>
-                  <TableCell>{c.phone}</TableCell>
-                  <TableCell>
-                    {c.purchaseDate
-                      ? new Date(c.purchaseDate).toLocaleDateString()
-                      : "-"}
-                  </TableCell>
-                  <TableCell>
-                    <Button
-                      size="small"
-                      onClick={() =>
-                        handleReminderEditOpen(c._id, c.reminderDate)
-                      }
-                    >
-                      {c.reminderDate
-                        ? new Date(c.reminderDate).toLocaleString()
-                        : "Set"}
-                    </Button>
-                  </TableCell>
-                  <TableCell>
-                    <TextField
-                      variant="standard"
-                      value={c.note || ""}
-                      fullWidth
-                      onChange={(e) => {
-                        const updated = customers.map((item) =>
-                          item._id === c._id
-                            ? { ...item, note: e.target.value }
-                            : item,
-                        );
-                        setCustomers(updated);
-                      }}
-                      onBlur={() => handleNoteChange(c._id, c.note)}
-                    />
-                  </TableCell>
-                  <TableCell>{c.address || "-"}</TableCell>
-                  <TableCell>
-                    {c.dob ? new Date(c.dob).toLocaleDateString() : "-"}
-                  </TableCell>
-                  <TableCell>
-                    {Array.isArray(c.preferredDelivery)
-                      ? c.preferredDelivery.join(", ")
-                      : c.preferredDelivery || "-"}
-                  </TableCell>
-                  <TableCell>
-                    <Button size="small" onClick={() => handleEditOpen(c)}>
-                      <MdEdit />
-                    </Button>
-                    <Button
-                      size="small"
-                      color="error"
-                      onClick={() => handleDelete(c._id)}
-                    >
-                      <MdDelete />
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </Paper>
+        <div>
+          <DataGrid style={{ height: 500, width: "100%"}}
+            columns={columns}
+            rows={rows}
+            disableRowSelectionOnClick
+            checkboxSelection
+          />
+        </div>
 
         {/* Reminder Dialog */}
         <Dialog
@@ -435,7 +397,7 @@ export default function Customer() {
               fullWidth
               margin="dense"
               InputLabelProps={{ shrink: true }}
-              value={newCustomer.purchaseDate}
+              value={newCustomer?.purchaseDate ? newCustomer.purchaseDate.split("T")[0] : ""}
               onChange={handleNewCustomerChange}
             />
             <TextField

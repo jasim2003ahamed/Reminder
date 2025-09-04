@@ -15,6 +15,7 @@ import {
   AlarmOn,
   Assessment,
   Group,
+  Person
 } from '@mui/icons-material';
 import axios from 'axios';
 import MiniCalendar from '../Calendar/MiniCalendar';
@@ -41,10 +42,11 @@ const DashboardPage = () => {
 
   const fetchStats = async () => {
     try {
-      const [taskRes, reminderRes, customerRes] = await Promise.all([
+      const [taskRes, reminderRes, customerRes, employeeRes] = await Promise.all([
         axios.get('http://localhost:5000/api/tasks'),
         axios.get('http://localhost:5000/api/reminders'),
         axios.get('http://localhost:5000/api/customers'),
+        axios.get('http://localhost:5000/api/employee'),
       ]);
 
       const now = new Date();
@@ -62,6 +64,7 @@ const DashboardPage = () => {
         remindersUpcoming: upcoming.length,
         overdueCount: overdue.length,
         customerCount: customerRes.data.length,
+        employeeCount: employeeRes.data.length
       });
     } catch (err) {
       console.error('Failed to fetch stats', err);
@@ -115,6 +118,12 @@ const DashboardPage = () => {
       icon: <Group />,
       value: stats.customerCount,
       color: '#9c27b0',
+    },
+    {
+      label: 'Total Employees',
+      icon: <Person />,
+      value: stats.employeeCount,
+      color: "#4caf50"
     },
   ];
 
